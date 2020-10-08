@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Models;
 
 use App\Models\Category;
 use App\Models\Genre;
@@ -28,7 +28,7 @@ class GenreTest extends TestCase
 
     public function testCasts()
     {
-        $casts = ['id' => 'string'];
+        $casts = ['id' => 'string', 'is_active' => 'boolean'];
         $genre = new Genre();
         $this->assertEquals($casts, $genre->getCasts());
     }

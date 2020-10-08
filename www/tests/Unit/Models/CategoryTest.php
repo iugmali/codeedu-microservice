@@ -1,17 +1,19 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Models;
 
 use App\Models\Category;
 use App\Models\Traits\Uuid;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CategoryTest extends TestCase
 {
-    public function testFillable()
+
+    public function testFillableAttribute()
     {
         $fillable = ['name', 'description', 'is_active'];
         $category = new Category();
@@ -27,7 +29,7 @@ class CategoryTest extends TestCase
 
     public function testCasts()
     {
-        $casts = ['id' => 'string'];
+        $casts = ['id' => 'string', 'is_active' => 'boolean'];
         $category = new Category();
         $this->assertEquals($casts, $category->getCasts());
     }
