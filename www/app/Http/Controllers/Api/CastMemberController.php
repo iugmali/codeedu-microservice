@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Genre;
-use App\Http\Controllers\Controller;
+use App\Models\CastMember;
 use Illuminate\Http\Request;
 
-class GenreController extends BasicCrudController
+class CastMemberController extends BasicCrudController
 {
     private $rules;
 
@@ -14,13 +13,13 @@ class GenreController extends BasicCrudController
     {
         $this->rules = [
             'name' => 'required|max:255',
-            'is_active' => 'boolean'
+            'type' => 'required|in:' . implode(',', [CastMember::TYPE_ACTOR, CastMember::TYPE_DIRECTOR])
         ];
     }
 
     protected function model()
     {
-        return Genre::class;
+        return CastMember::class;
     }
 
     protected function rulesStore()
@@ -31,5 +30,4 @@ class GenreController extends BasicCrudController
     {
         return $this->rules;
     }
-
 }

@@ -31,6 +31,7 @@ class GenreTest extends TestCase
         ]);
         $genre->refresh();
         $this->assertEquals('Blabla', $genre->name);
+        $this->assertEquals(36, strlen($genre->id));
         $this->assertNull($genre->description);
         $this->assertTrue($genre->is_active);
         $genre = Genre::create([
