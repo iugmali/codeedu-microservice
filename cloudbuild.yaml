@@ -1,0 +1,46 @@
+steps:
+
+  - id: "Gerando service key"
+    name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - kms
+      - decrypt
+      - --ciphertext-file=./backend/storage/credentials/google/storage-admin.json.enc
+      - --plaintext-file=./backend/storage/credentials/google/serv-storage-admin.json
+      - --location=global
+      - --keyring=lms-storage
+      - --key=lms-service-account
+
+  - id: "Rodando Docker Compose"
+    name: 'gcr.io/$PROJECT_ID/docker-compose'
+    args: ['-f', 'docker-compose.prod.yaml', 'up', '-d', '--build']
+    env:
+      - GOOGLE_CLOUD_PROJECT_ID=lms-ci-test
+      - GOOGLE_CLOUD_STORAGE_BUCKET=lms-code-micro-videos
+      - GOOGLE_CLOUD_KEY_FILE=serv-storage-admin.json
+      - GOOGLE_CLOUD_STORAGE_API_URI=https://console.cloud.google.com/storage/browser/lms-code-micro-videos
+      - TESTING_PRODD=true
+
+  - id: "Rodando Composer"
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['exec', '-t', 'micro-videos-app', 'cd', 'backend', '&', 'composer', 'install']
+
+  - id: "Copy env"
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['exec', '-t', 'micro-videos-app', 'cp', './backend/.env.example', './backend/.env']
+
+  - id: "Copy test env"
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['exec', '-t', 'micro-videos-app', 'cp', './backend/.env.testing.example', './backend/.env.testing']
+
+  - id: "Key Generate"
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['exec', '-t', 'micro-videos-app', 'php', '/var/www/backend/artisan', 'key:generate']
+
+  - id: "Laravel - Artisan migrate"
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['exec', '-t', 'micro-videos-app', 'php', '/var/www/backend/artisan', 'migrate']
+
+  - id: "Rodando phpunit"
+    name: 'gcr.io/cloud-builders/docker'
+    args: ['exec', '-t', 'micro-videos-app', 'php', '/var/www/backend/vendor/bin/phpunit', '-c', '/var/www/backend/phpunit.xml']

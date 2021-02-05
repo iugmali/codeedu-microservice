@@ -3,9 +3,9 @@ www/public/hot
 www/public/storage
 www/storage/*.key
 www/vendor
-www/.env
+www/backend/.env
 www/.env.backup
-www/.env.testing
+www/backend/.env.testing
 www/.phpunit.result.cache
 Homestead.json
 Homestead.yaml
