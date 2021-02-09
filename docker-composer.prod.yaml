@@ -12,7 +12,7 @@ services:
       - TESTING_PRODD=${TESTING_PRODD}
     container_name: micro-videos-app
     volumes:
-      - .:/var/www
+      - ./www:/var/www
     networks:
       - app-network
     depends_on:
@@ -27,7 +27,7 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - .:/var/www
+      - ./www:/var/www
     networks:
       - app-network
     depends_on:
