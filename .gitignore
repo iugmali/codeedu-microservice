@@ -3,7 +3,9 @@ www/backend/node_modules
 www/backend/public/hot
 www/backend/public/storage
 www/backend/storage/*.key
-www/bachend/storage/faker
+www/backend/storage/faker/images/
+www/backend/storage/faker/videos/
+www/backend/storage/faker/
 www/backend/storage/credentials/google/service-account-storage.json
 www/backend/vendor
 www/backend/.env
