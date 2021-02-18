@@ -139,6 +139,39 @@ class VideoTest extends TestCase
         $this->assertTrue($hasError);
     }
 
+    public function testFileUrlWithLocalDriver()
+    {
+        $fileFields = [];
+        foreach (Video::$fileFields as $field) {
+            $fileFields[$field] = "$field.test";
+        }
+        $video = factory(Video::class)->create($fileFields);
+        $localDriver = config('filesystems.default');
+        $baseUrl = config('filesystems.disks'.$localDriver)['url'];
+        dump($baseUrl);
+        foreach ($fileFields as $field => $value) {
+            $fileUrl = $video->{"{$field}_url"};
+            $this->assertEquals("{$baseUrl}/$video->id/$value", $fileUrl);
+        }
+    }
+
+    public function testFileUrlWithGcsDriver()
+    {
+        $fileFields = [];
+        foreach (Video::$fileFields as $field) {
+            $fileFields[$field] = "$field.test";
+        }
+        $video = factory(Video::class)->create($fileFields);
+        $baseUrl = config('filesystems.disks.storage_api_uri');
+        dump($baseUrl);
+
+        \Config::set('filesystems.default', 'gcs');
+        foreach ($fileFields as $field => $value) {
+            $fileUrl = $video->{"{$field}_url"};
+            $this->assertEquals("{$baseUrl}/$video->id/$value", $fileUrl);
+        }
+    }
+
     public function testRollbackCreate()
     {
         $hasError = false;

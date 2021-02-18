@@ -1,3 +1,4 @@
+www/frontend/node_modules
 www/backend/node_modules
 www/backend/public/hot
 www/backend/public/storage
@@ -8,6 +9,7 @@ www/backend/.env
 www/backend/.env.backup
 www/backend/.env.testing
 www/backend/.phpunit.result.cache
+www/.npm-cache
 Homestead.json
 Homestead.yaml
 npm-debug.log
