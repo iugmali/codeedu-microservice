@@ -34,7 +34,7 @@ class CastMemberControllerTest extends TestCase
 
     public function testShow()
     {
-        $response = $this->get(route('cast_members.show', ['cast_member' => $this->cast_member->id]));
+        $response = $this->get(route('cast_members.show', ['cast-member' => $this->cast_member->id]));
 
         $response
             ->assertStatus(200)
@@ -88,7 +88,7 @@ class CastMemberControllerTest extends TestCase
 
     public function testDestroy()
     {
-        $response = $this->json('DELETE', route('cast_members.destroy', ['cast_member' => $this->cast_member->id]));
+        $response = $this->json('DELETE', route('cast_members.destroy', ['cast-member' => $this->cast_member->id]));
         $response->assertStatus(204);
         $this->assertNull(CastMember::find($this->cast_member->id));
         $this->assertNotNull(CastMember::withTrashed()->find($this->cast_member->id));
@@ -101,7 +101,7 @@ class CastMemberControllerTest extends TestCase
 
     protected function routeUpdate()
     {
-        return route('cast_members.update', ['cast_member' => $this->cast_member->id]);
+        return route('cast_members.update', ['cast-member' => $this->cast_member->id]);
     }
 
     protected function model()
