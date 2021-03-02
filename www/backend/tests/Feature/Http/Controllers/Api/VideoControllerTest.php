@@ -135,8 +135,26 @@ class VideoControllerTest extends TestCase
         $this->assertInvalidationFile(
             'video_file',
             'mp4',
-            500,
+            Video::VIDEO_FILE_MAX_SIZE,
             'mimetypes',['values' => 'video/mp4']
+        );
+        $this->assertInvalidationFile(
+            'trailer_file',
+            'mp4',
+            Video::TRAILER_FILE_MAX_SIZE,
+            'mimetypes',['values' => 'video/mp4']
+        );
+        $this->assertInvalidationFile(
+            'banner_file',
+            'jpg',
+            Video::BANNER_FILE_MAX_SIZE,
+            'image'
+        );
+        $this->assertInvalidationFile(
+            'thumb_file',
+            'jpg',
+            Video::THUMB_FILE_MAX_SIZE,
+            'image'
         );
     }
 
@@ -186,9 +204,7 @@ class VideoControllerTest extends TestCase
                 'genres_id' => [$genre->id]
             ] + $files);
         $response->assertStatus(201);
-        foreach ($files as $file) {
-            \Storage::assertExists("{$response->json('id')}/{$file->hashName()}");
-        }
+        $this->assertFilesOnPersist($response,$files);
     }
 
     public function testUpdateWithFiles()
@@ -206,9 +222,8 @@ class VideoControllerTest extends TestCase
                 'genres_id' => [$genre->id]
             ] + $files);
         $response->assertStatus(200);
-        foreach ($files as $file) {
-            \Storage::assertExists("{$response->json('id')}/{$file->hashName()}");
-        }
+        $this->assertFilesOnPersist($response,$files);
+
     }
 
 
@@ -255,6 +270,13 @@ class VideoControllerTest extends TestCase
         $response->assertStatus(204);
         $this->assertNull(Video::find($this->video->id));
         $this->assertNotNull(Video::withTrashed()->find($this->video->id));
+    }
+
+    protected function assertFilesOnPersist(TestResponse $response, $files)
+    {
+        $id = $response->json('id');
+        $video = Video::find($id);
+        $this->assertFilesExistsInStorage($video,$files);
     }
 
     protected function getFiles()

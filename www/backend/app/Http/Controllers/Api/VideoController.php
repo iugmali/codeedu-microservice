@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\BasicCrudController;
+use App\Http\Resources\VideoResource;
 use App\Models\Video;
 use App\Rules\GenresHaveCategoriesRule;
 use Illuminate\Http\Request;
@@ -75,5 +76,15 @@ class VideoController extends BasicCrudController
     protected function rulesUpdate()
     {
         return $this->rules;
+    }
+
+    protected function resourceCollection()
+    {
+        return $this->resource();
+    }
+
+    protected function resource()
+    {
+        return VideoResource::class;
     }
 }

@@ -35,7 +35,7 @@ class BasicCrudControllerTest extends TestCase
     public function testIndex()
     {
         $category = CategoryStub::create(['name' => 'test', 'description' => 'test description']);
-        $this->assertEquals([$category->toArray()], $this->controller->index()->toArray());
+        $this->assertEquals([$category->toArray()], $this->controller->index()->response()->getData(true)['data']);
     }
 
     public function testInvalidationDataInStore()
