@@ -20,7 +20,8 @@ export const Form = () => {
     const classes = useStyles();
     const buttonProps: ButtonProps = {
         className: classes.submit,
-        variant: "outlined"
+        variant: "contained",
+        color: "secondary"
     };
     const [categories, setCategories] = useState<any[]>([]);
     const {register, handleSubmit, getValues, setValue, watch} = useForm({
@@ -77,6 +78,7 @@ export const Form = () => {
                 }
             </TextField>
             <Checkbox
+                color={"primary"}
                 name="is_active"
                 defaultChecked
                 inputRef={register}
