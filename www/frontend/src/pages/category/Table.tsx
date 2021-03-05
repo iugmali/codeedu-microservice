@@ -6,6 +6,7 @@ import {Chip} from "@material-ui/core";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 import categoryHttp from "../../util/http/category-http";
+import {BadgeYes, BadgeNo} from "../../components/Badge";
 
 const columnsDefinition: MUIDataTableColumn[] = [
     {
@@ -17,7 +18,7 @@ const columnsDefinition: MUIDataTableColumn[] = [
         label: "Ativo?",
         options: {
             customBodyRender(value, tableMeta, updateValue) {
-                return value ? <Chip label="Sim" color="primary"/> : <Chip label="Nao" color="secondary"/>;
+                return value ? <BadgeYes /> : <BadgeNo />;
             }
         }
     },
@@ -46,7 +47,7 @@ const Table = (props: Props) => {
     return (
         <div>
             <MUIDataTable
-                title="Listagem de Categorias"
+                title=""
                 columns={columnsDefinition}
                 data={data}
             />

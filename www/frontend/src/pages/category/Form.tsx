@@ -4,6 +4,7 @@ import {Box, Button, ButtonProps, Checkbox, TextField} from "@material-ui/core";
 import {makeStyles, Theme} from "@material-ui/core/styles";
 import {useForm} from "react-hook-form";
 import categoryHttp from "../../util/http/category-http";
+import * as yup from "../../util/vendor/yup";
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -13,15 +14,21 @@ const useStyles = makeStyles((theme: Theme) => {
     }
 });
 
+const validationSchema = yup.object().shape({
+    name: yup.string().label("Nome").required
+});
+
 export const Form = () => {
 
     const classes = useStyles();
     const buttonProps: ButtonProps = {
         className: classes.submit,
-        variant: "outlined"
+        variant: "contained",
+        color: "secondary"
     };
 
-    const {register, handleSubmit, getValues} = useForm({
+    const {register, handleSubmit, getValues, errors} = useForm({
+        validationSchema,
         defaultValues: {
             is_active: true
         }
@@ -41,7 +48,11 @@ export const Form = () => {
                 label="Nome"
                 fullWidth
                 variant={"outlined"}
-                inputRef={register}
+                inputRef={register({
+                    required: "Campo Requerido"
+                })}
+                error={errors.name !== undefined}
+                helperText={errors.name && errors.name.message}
             />
             <TextField
                 name="description"
@@ -54,13 +65,14 @@ export const Form = () => {
                 inputRef={register}
             />
             <Checkbox
+                color={"primary"}
                 name="is_active"
                 defaultChecked
                 inputRef={register}
             />
             Ativo?
             <Box dir={"rtl"}>
-                <Button {...buttonProps} onClick={() => onSubmit(getValues(), null)}>Salvar</Button>
+                <Button color={"primary"} {...buttonProps} onClick={() => onSubmit(getValues(), null)}>Salvar</Button>
                 <Button {...buttonProps} type="submit">Salvar e continuar editando</Button>
             </Box>
         </form>

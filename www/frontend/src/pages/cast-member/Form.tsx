@@ -28,7 +28,8 @@ export const Form = () => {
     const classes = useStyles();
     const buttonProps: ButtonProps = {
         className: classes.submit,
-        variant: "outlined"
+        variant: "outlined",
+        color: "secondary"
     };
 
     const {register, handleSubmit, getValues, setValue} = useForm();
@@ -59,8 +60,8 @@ export const Form = () => {
                     name="type"
                     onChange={(e) => {setValue("type", parseInt(e.target.value));}}
                 >
-                    <FormControlLabel value="1" control={<Radio />} label="Diretor" />
-                    <FormControlLabel value="2" control={<Radio />} label="Ator" />
+                    <FormControlLabel value="1" control={<Radio color={"primary"} />} label="Diretor" />
+                    <FormControlLabel value="2" control={<Radio color={"primary"} />} label="Ator" />
                 </RadioGroup>
             </FormControl>
             <Box dir={"rtl"}>
