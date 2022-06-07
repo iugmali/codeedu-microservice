@@ -1,12 +1,8 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="http://maratona.fullcycle.com.br/public/img/logo-maratona.png"/></a>
-</p>
-
 ## Descrição
 
 Microsserviço de catálogo
 
-## Rodar a aplicação
+## Backend application
 
 #### Crie os containers com Docker
 
@@ -14,8 +10,26 @@ Microsserviço de catálogo
 $ docker-compose up
 ```
 
-#### Accesse no browser
+#### backend em laravel
 
 ```
 http://localhost:8000
 ```
+
+### backend em nest.js
+
+```
+a ser implementado
+```
+
+## To-do list
+- Create dev environment
+- Create node.js application
+## Entities to-do lists
+- Create entity
+- Create tests
+- Create usecases and repository
+- Create more tests
+## Creating Backend REST API via Nest.js
+## Integrating via RabbitMQ and Video Encoding
+## E2E Tests

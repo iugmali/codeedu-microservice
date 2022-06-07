@@ -57,6 +57,9 @@ const theme = createMuiTheme({
                 "& button": {
                     color: "#ffffff !important",
                 },
+                "& div": {
+                    color: "#ffffff !important",
+                },
                 "&[aria-sort]":{
                     backgroundColor: "#459ac4"
                 }

@@ -10,7 +10,7 @@ import {SnackbarProvider} from "../src/components/SnackbarProvider";
 
 const App: React.FC = () => {
     return (
-        <React.Fragment>
+        <>
             <MuiThemeProvider theme={theme}>
                 <SnackbarProvider>
                     <CssBaseline />
@@ -23,7 +23,7 @@ const App: React.FC = () => {
                     </BrowserRouter>
                 </SnackbarProvider>
             </MuiThemeProvider>
-        </React.Fragment>
+        </>
     );
 }
 
