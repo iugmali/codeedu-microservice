@@ -10,6 +10,7 @@ import {useSnackbar} from "notistack";
 import {useHistory, useParams} from "react-router-dom";
 import castMemberHttp from "../../util/http/cast-member-http";
 import * as yup from "../../util/vendor/yup";
+import {Category, Genre} from "../../util/models";
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -52,9 +53,9 @@ export const Form = () => {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const history = useHistory();
     const {id} = useParams<{id: string}>();
-    const [genre, setGenre] = useState<{id: string} | null>(null);
+    const [genre, setGenre] = useState<Genre | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
-    const [categories, setCategories] = useState<any[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
 
     const buttonProps: ButtonProps = {
         className: classes.submit,
@@ -72,21 +73,24 @@ export const Form = () => {
     }, [register]);
 
     useEffect(() => {
-        (async function loadData() {
+        let isSubscribed = true;
+        (async () => {
             setLoading(true);
-            const promises = [categoryHttp.list()];
+            const promises = [categoryHttp.list({queryParams: {all: ''}})];
             if (id) {
                 promises.push(genreHttp.get(id));
             }
             try {
                 const [categoriesResponse, genreResponse] = await Promise.all(promises);
-                setCategories(categoriesResponse.data.data);
-                if (id) {
-                    setGenre(genreResponse.data.data);
-                    reset({
-                       ...genreResponse.data.data,
-                       categories_id: genreResponse.data.data.categories.map(category => category.id)
-                    });
+                if (isSubscribed) {
+                    setCategories(categoriesResponse.data.data);
+                    if (id) {
+                        setGenre(genreResponse.data.data);
+                        reset({
+                            ...genreResponse.data.data,
+                            categories_id: genreResponse.data.data.categories.map(category => category.id)
+                        });
+                    }
                 }
             } catch (error) {
                 console.error(error);
@@ -95,6 +99,9 @@ export const Form = () => {
                 setLoading(false);
             }
         })();
+        return () => {
+            isSubscribed = false;
+        }
     }, []);
 
     async function onSubmit(formData, event) {

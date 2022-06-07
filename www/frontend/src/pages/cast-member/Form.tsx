@@ -18,6 +18,7 @@ import * as yup from "../../util/vendor/yup";
 import {useSnackbar} from "notistack";
 import {useHistory, useParams} from "react-router-dom";
 import categoryHttp from "../../util/http/category-http";
+import {CastMember} from "../../util/models";
 
 const useStyles = makeStyles((theme: Theme) => {
     return {
@@ -55,7 +56,7 @@ export const Form = () => {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const history = useHistory();
     const {id} = useParams<{id: string}>();
-    const [castMember, setCastMember] = useState<{id: string} | null>(null);
+    const [castMember, setCastMember] = useState<CastMember | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
 

@@ -1,4 +1,9 @@
 www/frontend/node_modules
+
+www/backend-typescript/node_modules/
+www/backend-typescript/.history/
+www/backend-typescript/tsconfig.tsbuildinfo
+
 www/backend/node_modules
 www/backend/public/hot
 www/backend/public/storage
